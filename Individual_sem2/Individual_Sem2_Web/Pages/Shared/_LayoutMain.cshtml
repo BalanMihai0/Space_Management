@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AstraDynamics App</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Individual_Sem2_Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/Custom.css" asp-append-version="true" />
+    <!--Maps lib-->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- FontAwesome CSS for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+
+</head>
+<body class="main-layout" >
+    <!--Loading screen for response async functions
+        For some reason, IsLoading does not become a field and viewdata is always null
+        What
+    -->
+    @if (ViewData["IsLoading"] != null && (bool)ViewData["IsLoading"])
+    {
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+    }
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <img src="~/images/LogoIndividual.png" width=auto height="70px" class="d-inline-block align-top" alt="Logo">
+                </div>
+                <but1ton class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <span class="navbar-toggler-icon"></span>
+                </but1ton>
+                <div class="collapse navbar-collapse justify-content-front" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="./Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="./Map">Map</a>
+                        </li>
+                        <!--No user logged in, login section visible-->
+                        @if (User.FindFirst("TypeOfUser") == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="./Login">Sign In</a>
+                            </li>
+                        }
+                        @if (User.FindFirst("TypeOfUser") != null)
+                        {
+                            <!--Any logged in user can see these-->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="./Satellites">Satellites</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="./Stations">Space Stations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="./Debris">Debris</a>
+                            </li>
+                            <!--Only Admin has acces to these-->
+                            @if (!(User.FindFirst("TypeOfUser").Value == "Employee" || User.FindFirst("TypeOfUser").Value == "Guest"))
+                            {
+                                @if (User.FindFirst("TypeOfUser").Value == "Administrator")
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="./Users">Users</a>
+                                </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    @if (!(User.FindFirst("TypeOfUser") == null))
+                    {
+                        <ul class="navbar-nav ms-auto">
+                            @if (User.FindFirst("TypeOfUser").Value == "Guest")
+                            {
+                                <li class="nav-item">
+                                    <img src="@User.FindFirst("ProfilePictureUrl").Value" alt="Profile Picture" class="nav-link rounded-circle" style="width: 70px; height: 70px;">
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <img src="~/images/default_profile_picture.jpg" alt="Default Profile Picture" class="nav-link rounded-circle" style="width: 70px; height: 70px; margin-right: 10px;">
+                                </li>
+                            }
+
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <div class="dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                                        @User.FindFirst("Username").Value
+                                    </a>
+                                    <ul class="dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink" data-bs-auto-close="true">
+                                        <li><a class="dropdown-item" href="/Profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/SignOut">Log out</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                    }
+
+
+                </div>
+            </div>
+        </nav>
+    <div  style="margin-top: 0em; width:100%;margin-bottom: 0em; padding:0em;height:100%;" class="background-image">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="customfooter text-muted">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Contact Us</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-map-marker"></i> Address: Futlaan 10, Eindhoven Netherlands 8907BD</li>
+                        <li><i class="fa fa-phone"></i> Phone: (555) 555-1234</li>
+                        <li><i class="fa fa-envelope"></i> Email: info@astradys.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Follow Us</h4>
+                    <ul class="list-inline">
+                        <li><a href="#"><i class="fa fa-facebook"></i>  Astra Dynamics</a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i> realAstraDynamics</a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i>  astradys_official</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p>&copy; 2023 - Individual Assignment - Balan Mihai-Stefan</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />        
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!--script for loading screen, attempt2-->
+    <script>
+        document.getElementById("logout-btn").addEventListener("click", function () {
+            document.getElementById("loading-screen").style.display = "block";
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                if (this.getResponseHeader("X-Logout-Successful") === "true") {
+                    document.getElementById("loading-screen").style.display = "none";
+                }
+            }
+        };
+    </script>
+    <script>
+        $('.dropdown-menu').on('click', function (e) {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

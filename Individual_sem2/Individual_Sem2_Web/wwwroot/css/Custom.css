@@ -1,0 +1,213 @@
+﻿.navbar-nav .nav-link.active {
+    position: relative;
+}
+
+    .navbar-nav .nav-link.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        width: 100%;
+        height: 2px;
+        background-color: white;
+        animation: underline 0.2s ease-out;
+    }
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0
+}
+
+.row-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: black;
+    overflow: hidden;
+}
+
+.first-row {
+    background-color: black;
+}
+
+.second-row {
+    flex-grow: 1;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes underline {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+body {
+    overflow: auto;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
+
+.background-image {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('/images/Earth_Background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.masthead-heading {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}
+
+.graycontainer {
+    background-color: black;
+    margin-top: 0em;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+
+.customfooter {
+    background-color: #1a1a1a;
+    color: white;
+    bottom: 0;
+    width: 100%;
+    padding: 2em 0;
+    margin-bottom: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+.blackcontainer {
+    background-color: black;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align:right;
+    margin: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 100%;
+    height: 100%;
+}
+
+    .blackcontainer h1 {
+        align-content: flex-start;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 1.2;
+        margin-bottom: 30px;
+    }
+
+    .blackcontainer h2 {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+
+    .blackcontainer p {
+        font-size: 18px;
+        line-height: 1.5;
+        margin-top: 20px;
+    }
+
+.mainimage{
+    max-height:100%;
+    max-width:100%;
+    border-radius:12px;
+}
+
+.titletext {
+    font-size: 64px;
+    font-family: sans-serif;
+    padding-top: 2em;
+    text-shadow: 2px 2px 4px black;
+}
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -50px; /* height of the footer */
+}
+
+.footer {
+    height: 50px; /* height of the footer */
+}
+
+/*loading spin animation*/
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@media only screen and (max-width: 767px) {
+    .footer {
+        height: auto;
+    }
+
+        .footer ul {
+            text-align: center;
+            margin-left: 0;
+            padding-left: 0;
+            float: none;
+        }
+
+        .footer li {
+            display: inline-block;
+            margin: 0 5px;
+        }
+}
+
+.carousel-item video {
+    display: block;
+    margin: 0 auto;
+}

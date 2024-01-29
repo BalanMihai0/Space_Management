@@ -1,0 +1,163 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Welcome To Astra Dynamics";
+    Layout = "_LayoutMain";
+}
+
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center my-5">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Welcome to Astra Dynamics!</h1>
+                    <p class="lead text-white-50 mb-4">Connect with scientists around the world, in domains like Astronomy and Astrophysics. Get real-time information on what is happening around our planet!</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/SignUp">Get Started</a>
+                        <a class="btn btn-outline-light btn-lg px-4" href="/Downloads">Download the App</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="bg-black py-5 " >
+    <div class="container px-5 my-5">
+        <div class="row gx-5 text-white">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="feature bg-gradient text-white rounded-3 mb-3"><img src="/images/ISS.jpg" alt="ISS" class="img-fluid "></div>
+                <h2 class="h4 fw-bolder">Who are we?</h2>
+                <p>
+                    Astra Dynamics is a small company that provides IT management systems for spatial objects
+                    of high relevance to our daily lives, like satellites, space stations and other natural objects,
+                    like comets or asteroids.
+                </p>
+                <a class="text-decoration-none" href="/Stations">
+                    More
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="feature bg-gradient text-white rounded-3 mb-3"><img src="/images/Satellitejpg.jpg" alt="Satellitejpg" class="img-fluid"></div>
+                <h2 class="h4 fw-bolder">Help manage satellites!</h2>
+                <p>
+                    If you have ever user a GPS or watched TV, you have made use of a satellite.
+                    These pieces of machinery assist every system we are using, to a grater extend than
+                    the average person is aware of.
+                </p>
+                <p>
+                    We keep track of all objects in Earh's orbit, whether they help us or endanger us.
+                    Our software is used by scientists that have exact data and by regular people who want to contribute
+                    in their own way.
+                </p>                
+                <a class="text-decoration-none" href="/Satellites">
+                    More
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature  bg-gradient text-white rounded-3 mb-3"><img src="/images/asteroid.jpeg" alt="asteroid" class="img-fluid"></div>
+                <h2 class="h4 fw-bolder">Help with threat detection!</h2>
+                <p>
+                    Hundreds of objects fly by Earth on a daily basis. We do not notice them due to
+                    their small size, the distance at which they pass by, or because of their speed.
+                    Even if unoticeable to a person on the ground, for something in orbit, an interaction
+                    with such an object can be catastrophical.
+                </p>
+                <a class="text-decoration-none" href="/Map">
+                    More
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container-fluid bg-black">
+        <h1 class="text-white">Our Gallery</h1>
+    </div>
+</section>
+
+<div class="container-fluid bg-black">
+<div id="carouselGallery"
+     class="carousel slide carousel-fade"
+     data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        <button type="button"
+                data-bs-target="#carouselGallery"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"></button>
+        <button type="button"
+                data-bs-target="#carouselGallery"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        <button type="button"
+                data-bs-target="#carouselGallery"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <!--item-->
+        <div class="carousel-item active">
+            <video class="img-fluid" autoplay loop muted>
+                <source src="/images/Gallery/EarthFromSpace.mp4" type="video/mp4" />
+            </video>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Earth from Low Orbit</h5>
+                <p>
+                    See our planet from a unique perspective with this stunning footage captured from space
+                </p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <video class="img-fluid" autoplay loop muted>
+                <source src="/images/Gallery/Station.mp4" type="video/mp4" />
+            </video>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Space Station's robotic arm working</h5>
+                <p>
+                    Get a glimpse into life on the International Space Station as its robotic arm performs important tasks
+                </p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <video class="img-fluid" autoplay loop muted>
+                <source src="/images/Gallery/Sunrise.mp4"
+                        type="video/mp4" />
+            </video>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Sunrise from Outer Space</h5>
+                <p>
+                    Watch as the sun rises over Earth from the peaceful emptiness of space.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- Controls -->
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselGallery"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselGallery"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+</div>
+
+
+
+

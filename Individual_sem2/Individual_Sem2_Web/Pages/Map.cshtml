@@ -1,0 +1,129 @@
+﻿@page
+@model Individual_Sem2_Web.Pages.MapModel
+@{
+    ViewData["Title"] = "Map";
+    Layout = "_LayoutMain";
+}
+
+<div id="map" style="height: 500px;">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button onclick="searchObjects()">Search</button>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+
+    //using OpenStreetMap
+    const map = L.map('map').setView([0, 0], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    //JavaScript list of the C# objects
+    const spaceObjectsGeo = @Html.Raw(Json.Serialize(Model.spaceObjectsGeo)); //for map
+    const spaceObjectsRaw = @Html.Raw(Json.Serialize(Model.spaceObjectsRaw)); //for orbits
+
+
+    var SatelliteIcon = L.icon({
+        iconUrl: '/images/satellite_icon2.png',
+        iconSize: [50, 50],
+        popupAnchor: [-3, -10]
+    });
+    var StationIcon = L.icon({
+        iconUrl: '/images/station_icon2.png',
+        iconSize: [50, 50],
+        popupAnchor: [-3, -10]
+    });
+    var DebrisIcon = L.icon({
+        iconUrl: '/images/debris_icon3.png',
+        iconSize: [40, 40],
+        popupAnchor: [-3, -10]
+    });
+
+    //icons
+    spaceObjectsGeo.forEach((spaceObject) => {
+        const latitude = spaceObject.latitude;
+        const longitude = spaceObject.longitude;
+        const position = L.latLng(latitude, longitude);
+        const altitude = spaceObject.altitude;
+        const objectType = spaceObject.objectType;
+
+        let marker;
+
+        if (objectType === "Satellite")
+            marker = L.marker(position, { icon: SatelliteIcon }).addTo(map).bindPopup('<a href="./DetailsSattellite?name=' + spaceObject.name + '" target="_blank">' + spaceObject.name + '</a>');
+        else if (objectType === "Station")
+            marker = L.marker(position, { icon: StationIcon }).addTo(map).bindPopup('<a href="./DetailsStation?name=' + spaceObject.name + '" target="_blank">' + spaceObject.name + '</a>');
+        else if (objectType === "Debris")
+            marker = L.marker(position, { icon: DebrisIcon }).addTo(map).bindPopup('<a href="./DetailsDebris?name=' + spaceObject.name + '" target="_blank">' + spaceObject.name + '</a>');
+
+        const markerGroup = L.layerGroup([marker]);
+        markerGroup.addTo(map);
+    });
+
+    //trajectories
+    spaceObjectsRaw.forEach((spaceObject) => {
+
+        console.log(spaceObject.Position);
+        console.log(spaceObject.OrbitalData.SemiMajorAxis);
+
+        const orbitPoints = calculateOrbitPoints(spaceObject.Position,
+            spaceObject.SemiMajorAxis, spaceObject.Inclination,
+            spaceObject.LongitudeOfAscendingNode, spaceObject.TrueAnomaly);
+    
+        console.log(spaceObject.ObjectType);
+        console.log(orbitPoints);
+
+        let orbit;
+        
+        if (sapceObject.ObjectType === "Satellite")
+            orbit = L.polyline(orbitPoints, {color: 'blue' }).addTo(map); //trajectory draw
+        else if (sapceObject.ObjectType === "Station")
+        orbit = L.polyline(orbitPoints, {color: 'green' }).addTo(map); //trajectory draw
+        else if (sapceObject.ObjectType === "Debris")
+        orbit = L.polyline(orbitPoints, {color: 'red' }).addTo(map); //trajectory draw
+    });
+
+    // center the map on the first space object
+    const firstSpaceObject = spaceObjectsGeo[0];
+    const firstLatitude = firstSpaceObject.latitude;
+    const firstLongitude = firstSpaceObject.longitude;
+    const firstPosition = L.latLng(firstLatitude, firstLongitude);
+    map.setView(firstPosition, 4);
+
+    function calculateOrbitPoints(centerPosition, semiMajorAxis, inclination, longitudeOfAscendingNode, trueAnomaly) {
+        const orbitPoints = [];
+        const numPoints = 360;
+        const angularStep = (2 * Math.PI) / numPoints;
+
+        for (let i = 0; i < numPoints; i++) {
+            const angle = i * angularStep;
+            const trueAnomalyRad = trueAnomaly * (Math.PI / 180); //to radians
+
+            const x = semiMajorAxis * Math.cos(angle + trueAnomalyRad);
+            const y = semiMajorAxis * Math.sin(angle + trueAnomalyRad);
+
+            //orbital plane rotation
+            const rotatedX = x * Math.cos(longitudeOfAscendingNode) - y * Math.sin(longitudeOfAscendingNode);
+            const rotatedY = x * Math.sin(longitudeOfAscendingNode) + y * Math.cos(longitudeOfAscendingNode);
+
+            //inclination
+            const inclinationRad = inclination * (Math.PI / 180); //to radians
+            const finalX = rotatedX * Math.cos(inclinationRad);
+            const finalY = rotatedY * Math.sin(inclinationRad);
+            const finalZ = y * Math.cos(inclinationRad);
+
+            //centerPosition
+            const point = L.latLng(centerPosition.lat + finalY, centerPosition.lng + finalX);
+            orbitPoints.push(point);
+        }
+
+        return orbitPoints;
+    }
+
+
+</script>

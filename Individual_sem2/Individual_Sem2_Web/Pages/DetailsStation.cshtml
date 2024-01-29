@@ -1,0 +1,79 @@
+﻿@page 
+@model Individual_Sem2_Web.Pages.DetailsStationModel
+@{
+	ViewData["Title"] = "Details";
+	Layout = "_LayoutMain";
+}
+<div class="container-fluid bg-dark text-light">
+    <h1>Details for @Model.SelectedStation.Name</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Model:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.Model</dd>
+
+        <dt class="col-sm-3">Objective:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.ResearchType</dd>
+    </dl>
+
+    <hr>
+
+    <h2>Orbital Data</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Orbit Type:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.OrbitalData.OrbitType</dd>
+
+        <dt class="col-sm-3">Inclination:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.OrbitalData.Inclination</dd>
+
+        <dt class="col-sm-3">Longitude of Ascending Node:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.OrbitalData.LongitudeOfAscendingNode</dd>
+
+        <dt class="col-sm-3">True Anomaly:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.OrbitalData.TrueAnomaly</dd>
+
+        <dt class="col-sm-3">Semi Major Axis:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.OrbitalData.SemiMajorAxis</dd>
+    </dl>
+
+    <hr>
+
+    <h2>Telemetry Data</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Battery Level:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.TelemetryData.BatteryLevel</dd>
+
+        <dt class="col-sm-3">Temperature:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.TelemetryData.Temperature</dd>
+
+        <dt class="col-sm-3">Hull Integrity:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.TelemetryData.HullIntegrity</dd>
+
+        <dt class="col-sm-3">Board Computer Health:</dt>
+        <dd class="col-sm-9">@Model.SelectedStation.TelemetryData.BoardComputerHealth</dd>
+    </dl>
+
+    @if (Model.Collisions.Any())
+    {
+        <hr>
+
+        <h2 class="text-danger">Possible Collisions:</h2>
+
+        <ul>
+            @foreach ((SpaceObject, SpaceObject) collision in Model.Collisions)
+            {
+                <li>@collision.Item1.Name and @collision.Item2.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <hr>
+
+        <h2>Collisions: </h2>
+
+        <p>No possible collisions detected</p>
+    }
+
+</div>

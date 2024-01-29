@@ -1,0 +1,58 @@
+﻿@page "/Profile"
+@model Individual_Sem2_Web.Pages.ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "_LayoutMain";
+}
+
+<form method="post">
+    <input type="hidden" name="formType" id="formType" value="" />
+    <div class="container-fluid py-5 ">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 bg-dark " style="border-radius: 1rem;">
+                <h2 class="mb-4 text-white">Update your information: </h2>
+                <div class="row">
+
+                    <div class="col-md-6 ">
+                        <div class="mb-3 ">
+                            <label asp-for="userDetails.FirstName" class="form-label text-white-50">First Name</label>
+                            <input asp-for="userDetails.FirstName" type="text" class="form-control" required>
+                            <span asp-validation-for="userDetails.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="userDetails.LastName" class="form-label text-white-50">Last Name</label>
+                            <input asp-for="userDetails.LastName" type="text" class="form-control" required>
+                            <span asp-validation-for="userDetails.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="userDetails.Email" class="form-label text-white-50">Email</label>
+                            <input asp-for="userDetails.Email" type="text" class="form-control" readonly>
+                            <span asp-validation-for="userDetails.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="userDetails.BirthDate" class="form-label text-white-50">Date of Birth</label>
+                            <input asp-for="userDetails.BirthDate" type="date" class="form-control" required>
+                            <span asp-validation-for="userDetails.BirthDate" class="text-danger"></span>
+                        </div>
+                        @if (User.FindFirst("TypeOfUser").Value == "Guest")
+                        {
+                            <div class="mb-3">
+                                <label asp-for="userDetails.ProfilePictureUrl" class="form-label text-white-50">Profile Picture URL</label>
+                                <input asp-for="userDetails.ProfilePictureUrl" type="text" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg mb-5" asp-page-handler="DeleteButton">Delete account</button>
+                            </div>
+                        }
+                        
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg mb-5" asp-page-handler="SaveButton">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,59 @@
+﻿@page 
+@model Individual_Sem2_Web.Pages.DetailsDebrisModel
+@{
+	ViewData["Title"] = "Details";
+	Layout = "_LayoutMain";
+}
+<div class="container-fluid bg-dark text-light">
+    <h1>Details for @Model.SelectedDebris.Name</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Danger Radius:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.DangerRadius km</dd>
+    </dl>
+
+    <hr>
+
+    <h2>Orbital Data</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Orbit Type:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.OrbitalData.OrbitType</dd>
+
+        <dt class="col-sm-3">Inclination:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.OrbitalData.Inclination</dd>
+
+        <dt class="col-sm-3">Longitude of Ascending Node:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.OrbitalData.LongitudeOfAscendingNode</dd>
+
+        <dt class="col-sm-3">True Anomaly:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.OrbitalData.TrueAnomaly</dd>
+
+        <dt class="col-sm-3">Semi Major Axis:</dt>
+        <dd class="col-sm-9">@Model.SelectedDebris.OrbitalData.SemiMajorAxis</dd>
+    </dl>
+
+
+    @if (Model.Collisions.Any())
+    {
+        <hr>
+
+        <h2 class="text-danger">Possible Collisions:</h2>
+
+        <ul>
+            @foreach ((SpaceObject, SpaceObject) collision in Model.Collisions)
+            {
+                <li>@collision.Item1.Name and @collision.Item2.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <hr>
+
+        <h2>Collisions: </h2>
+
+        <p>No possible collisions detected</p>
+    }
+
+</div>

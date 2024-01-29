@@ -1,0 +1,56 @@
+﻿@page
+@model Individual_Sem2_Web.Pages.SatellitesModel
+@{
+	ViewData["Title"] = "Satellites";
+	Layout = "_LayoutMain";
+}
+<div class="container-fluid bg-dark text-light">
+    <div class="row">
+        @foreach (Satellite satellite in Model.satellites)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-3 bg-secondary text-light">
+                    <div class="card-body">
+                        <h5 class="card-title">@satellite.Name</h5>
+                        <h6 class="card-subtitle mb-2">@satellite.Manufacturer</h6>
+                        <p class="card-text">@satellite.Objective</p>
+                    </div>
+                    <ul class="list-group list-group-flush bg-dark">
+                        <li class="list-group-item bg-dark text-light">Model: @satellite.Model</li>
+                        <li class="list-group-item bg-dark text-light">Launch Date: @satellite.LaunchData.LaunchDate</li>
+                        <li class="list-group-item bg-dark text-light">Size (m): @satellite.Size</li>
+                        <li class="list-group-item bg-dark text-light">Mass (kg): @satellite.Mass</li>
+                        <li class="list-group-item bg-dark text-light">Position (x, y, z): @satellite.Position.X, @satellite.Position.Y, @satellite.Position.Z</li>
+                        <li class="list-group-item bg-dark text-light">Velocity (x, y, z): @satellite.Velocity.X, @satellite.Velocity.Y, @satellite.Velocity.Z</li>
+                        <li class="list-group-item bg-dark text-light"><a href="./DetailsSattellite?name=@satellite.Name" target="_blank" class="text-light">Details</a></li>
+                    </ul>
+                    <div class="card-footer text-muted bg-dark">
+                        Telemetry Data:
+                        @if (satellite.TelemetryData.HasValue())
+                        {
+                            <p class="mb-0">Temperature: @satellite.TelemetryData.Temperature</p>
+                            <p class="mb-0">Battery Level: @satellite.TelemetryData.BatteryLevel</p>
+                            <p class="mb-0">Hull Integrity: @satellite.TelemetryData.HullIntegrity</p>
+                            <p class="mb-0">Board Computer Health: @satellite.TelemetryData.BoardComputerHealth</p>
+                        }
+                        else
+                        {
+                            <p class="mb-0">No telemetry data available.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+
+
+
